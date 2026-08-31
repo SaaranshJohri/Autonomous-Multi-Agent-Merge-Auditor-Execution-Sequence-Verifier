@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from dependency_graph import DependencyGraph
 
 from ast_parser import ASTParser
 
@@ -37,9 +38,18 @@ def parse_code(request: CodeRequest):
 
         result = parser.parse()
 
+        dependency_graph = DependencyGraph(
+            result
+        )
+
+        graph = dependency_graph.build()
+
+        graph_data = dependency_graph.get_graph_data()
+
         return {
             "success": True,
-            "ast_analysis": result
+            "ast_analysis": result,
+            "dependency_graph": graph_data
         }
 
     except SyntaxError as e:
