@@ -7,18 +7,21 @@ from ast_parser import ASTParser
 app = FastAPI(
     title="MergeMind Backend",
     description="Semantic Merge Conflict Detection System",
-    version="0.1.0"
+    version="0.2.0"
 )
 
 
 class CodeRequest(BaseModel):
     code: str
+    filename: str = "unknown.py"
 
 
 @app.get("/")
 def home():
+
     return {
-        "message": "MergeMind Backend is running"
+        "message": "MergeMind Backend is running",
+        "version": "0.2.0"
     }
 
 
@@ -26,7 +29,11 @@ def home():
 def parse_code(request: CodeRequest):
 
     try:
-        parser = ASTParser(request.code)
+
+        parser = ASTParser(
+            code=request.code,
+            filename=request.filename
+        )
 
         result = parser.parse()
 
@@ -41,6 +48,7 @@ def parse_code(request: CodeRequest):
             "success": False,
             "error": "Invalid Python syntax",
             "line": e.lineno,
+            "column": e.offset,
             "message": e.msg
         }
 
