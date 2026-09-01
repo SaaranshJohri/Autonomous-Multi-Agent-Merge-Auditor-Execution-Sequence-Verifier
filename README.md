@@ -4,30 +4,31 @@
 
 > **Git tells you whether code conflicts. MergeMind tells you whether your code will still work.**
 
-[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge\&logo=python\&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge\&logo=fastapi\&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![AST](https://img.shields.io/badge/Analysis-Python%20AST-orange?style=for-the-badge)](https://docs.python.org/3/library/ast.html)
 [![NetworkX](https://img.shields.io/badge/Graph-NetworkX-blue?style=for-the-badge)](https://networkx.org/)
-[![Docker](https://img.shields.io/badge/Sandbox-Docker-2496ED?style=for-the-badge\&logo=docker\&logoColor=white)](https://www.docker.com/)
+[![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Docker](https://img.shields.io/badge/Sandbox-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 [![LangGraph](https://img.shields.io/badge/Agents-LangGraph-black?style=for-the-badge)](https://www.langchain.com/langgraph)
 [![Status](https://img.shields.io/badge/Status-In%20Development-yellow?style=for-the-badge)]()
 
 ---
 
-## 🚨 The Problem
+# 🚨 The Problem
 
 Modern software development is built around parallel collaboration.
 
 Multiple developers can simultaneously modify:
 
-* the same functions
-* shared APIs
-* database operations
-* dependencies
-* execution sequences
-* global state
-* configuration
-* external service interactions
+- the same functions
+- shared APIs
+- database operations
+- dependencies
+- execution sequences
+- global state
+- configuration
+- external service interactions
 
 Git is extremely effective at detecting **textual conflicts**.
 
@@ -72,7 +73,7 @@ The application fails.
 
 # 💡 What is MergeMind?
 
-**MergeMind** is an autonomous software-engineering system designed to detect **semantic merge conflicts** that traditional version-control systems may fail to identify.
+**MergeMind** is an intelligent software-engineering system designed to detect **semantic merge conflicts** that traditional version-control systems may fail to identify.
 
 Instead of treating a Pull Request as a simple textual diff, MergeMind attempts to understand:
 
@@ -90,7 +91,7 @@ Side Effects
 Runtime Behaviour
 ```
 
-It combines:
+The long-term system combines:
 
 * 🧩 AST-based static analysis
 * 🕸️ dependency and control-flow graphs
@@ -109,7 +110,7 @@ MergeMind aims to answer a question that traditional merge systems often cannot:
 
 > **"If these changes are merged, will the resulting software still behave correctly?"**
 
-The system ultimately produces one of two outcomes:
+The final system is intended to produce:
 
 ```text
                     MERGE AUDIT
@@ -128,81 +129,50 @@ The system ultimately produces one of two outcomes:
 
 ---
 
-# 🏗️ System Architecture
+# 🏗️ Current Architecture
+
+The project is being developed incrementally.
+
+The **current working pipeline** is:
 
 ```text
-                         ┌─────────────────┐
-                         │    Developer    │
-                         └────────┬────────┘
-                                  │
-                                  ▼
-                         ┌─────────────────┐
-                         │     GitHub      │
-                         │  Pull Request   │
-                         └────────┬────────┘
-                                  │
-                              Webhook
-                                  │
-                                  ▼
-                    ┌─────────────────────────┐
-                    │    MergeMind Gateway    │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │   Repository Manager    │
-                    │                         │
-                    │ Base + PR + Merge      │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │    STATIC ANALYSIS      │
-                    │                         │
-                    │ AST / Tree-sitter       │
-                    │ Dependency Graph        │
-                    │ Control Flow Graph      │
-                    └────────────┬────────────┘
-                                 │
-                                 ▼
-                    ┌─────────────────────────┐
-                    │    AGENT SUPERVISOR     │
-                    └────────────┬────────────┘
-                                 │
-              ┌──────────────────┼──────────────────┐
-              │                  │                  │
-              ▼                  ▼                  ▼
-       ┌────────────┐     ┌────────────┐     ┌────────────┐
-       │  Sequence  │     │    API     │     │ Side Effect│
-       │   Agent    │     │   Agent    │     │   Agent    │
-       └─────┬──────┘     └─────┬──────┘     └─────┬──────┘
-             │                  │                  │
-             └──────────────────┼──────────────────┘
-                                │
-                                ▼
-                    ┌─────────────────────────┐
-                    │     DOCKER SANDBOX      │
-                    │                         │
-                    │ Unit Tests              │
-                    │ Integration Tests       │
-                    │ Runtime Verification    │
-                    └────────────┬────────────┘
-                                 │
-                         ┌───────┴───────┐
-                         │               │
-                         ▼               ▼
-                       PASS             FAIL
-                         │               │
-                         ▼               ▼
-                  ┌────────────┐   ┌─────────────┐
-                  │ Auto Merge │   │ XAI Engine  │
-                  └────────────┘   └──────┬──────┘
-                                          │
-                                          ▼
-                                  ┌────────────────┐
-                                  │ Diagnosis +    │
-                                  │ Patch Suggestion│
-                                  └────────────────┘
+                  ┌──────────────────┐
+                  │   Python Code    │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │  FastAPI Backend │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │    AST Parser    │
+                  │   ast_parser.py  │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Structured Code  │
+                  │     Analysis     │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Dependency Graph │
+                  │ dependency_graph │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │    Streamlit     │
+                  │    Dashboard     │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Graph Visualization│
+                  └──────────────────┘
 ```
 
 ---
@@ -215,7 +185,7 @@ Traditional merge systems primarily ask:
 "Did the same lines change?"
 ```
 
-MergeMind asks:
+MergeMind aims to ask:
 
 ```text
 "What changed?"
@@ -235,11 +205,42 @@ MergeMind asks:
 
 ---
 
-# 🧩 Major Components
+# 🧩 Current Implementation
 
-## 1. AST Analysis
+## 1. FastAPI Backend
 
-MergeMind converts source code into an **Abstract Syntax Tree (AST)**.
+The backend provides the API layer between the frontend and the analysis engine.
+
+Current responsibilities:
+
+```text
+Frontend
+   │
+   │ HTTP Request
+   ▼
+FastAPI
+   │
+   ▼
+AST Parser
+   │
+   ▼
+Analysis Result
+```
+
+The backend currently handles:
+
+* backend health checking
+* Python source-code analysis
+* AST extraction
+* structured code analysis
+* dependency graph generation
+* returning analysis data to the frontend
+
+---
+
+# 🌳 2. AST Analysis
+
+MergeMind converts Python source code into an **Abstract Syntax Tree (AST)**.
 
 For example:
 
@@ -263,55 +264,253 @@ FunctionDef
     └── a + b
 ```
 
-This allows MergeMind to reason about code structure rather than only text.
-
-The current parser extracts:
+The parser extracts information such as:
 
 * imports
 * functions
 * classes
+* methods
 * function calls
 * variables
+* assignments
+* conditions
+* loops
+* return statements
 * source locations
+* function arguments
+
+This allows MergeMind to reason about code structure instead of treating the source as plain text.
 
 ---
 
-# 🕸️ Dependency Analysis
+# 🕸️ 3. Dependency Graph
 
-Once code structure is understood, MergeMind builds relationships between components.
+The AST information is converted into a graph representation.
+
+MergeMind uses graph structures to represent relationships between code components.
 
 Example:
 
 ```text
-main.py
-   │
-   ├──────────────► auth.py
-   │                    │
-   │                    ▼
-   │               database.py
-   │
-   └──────────────► payment.py
-                        │
-                        ▼
-                   database.py
+                 checkout
+                    │
+                  calls
+                    ▼
+             calculate_total
+                    │
+                  calls
+                    ▼
+              calculate_tax
 ```
 
-These relationships allow MergeMind to identify potentially affected components when a developer changes one function or module.
+A larger project can eventually be represented as:
 
-Planned technologies:
+```text
+                    main.py
+                   /      \
+                  /        \
+                 ▼          ▼
+             auth.py     payment.py
+                 │          │
+                 └────┬─────┘
+                      ▼
+                 database.py
+```
 
-* NetworkX
-* AST
-* Tree-sitter
-* Control Flow Graphs
+The dependency graph provides the foundation for future impact analysis.
 
 ---
 
-# 🤖 Multi-Agent Semantic Auditing
+# 🖥️ 4. Streamlit Dashboard
 
-MergeMind uses specialized agents rather than asking one general-purpose model to analyze everything.
+MergeMind has a dedicated frontend instead of exposing raw analysis JSON to the user.
 
-### Sequence Auditor
+The dashboard provides a developer-friendly interface for understanding the analyzed source code.
+
+Current sections include:
+
+```text
+🧩 Structure
+🕸️ Dependency Graph
+🔗 Relationships
+⚙️ Functions
+🏛️ Classes
+📦 Imports
+📄 Source
+```
+
+The dashboard displays:
+
+* function counts
+* class counts
+* import counts
+* function-call counts
+* variable counts
+* graph statistics
+* function relationships
+* class/method structure
+* imported modules
+* source code
+
+---
+
+# 🕸️ 5. Dependency Graph Visualization
+
+The dependency graph is visualized directly inside the dashboard.
+
+Instead of exposing raw JSON:
+
+```json
+{
+    "nodes": [...],
+    "edges": [...]
+}
+```
+
+MergeMind displays the relationships visually.
+
+Example:
+
+```text
+             ┌─────────────┐
+             │  checkout   │
+             └──────┬──────┘
+                    │
+                  calls
+                    │
+                    ▼
+          ┌──────────────────┐
+          │ calculate_total  │
+          └────────┬─────────┘
+                   │
+                 calls
+                   │
+                   ▼
+          ┌──────────────────┐
+          │  calculate_tax   │
+          └──────────────────┘
+```
+
+The dashboard also displays graph statistics:
+
+```text
+Nodes
+Relationships
+Function Dependencies
+```
+
+### Current stopping point
+
+```text
+             ✅ CURRENT
+                 │
+                 ▼
+          Python Source
+                 │
+                 ▼
+             AST Parser
+                 │
+                 ▼
+         Dependency Graph
+                 │
+                 ▼
+       Streamlit Visualization
+                 │
+                 ▼
+              ⏸️ STOP
+```
+
+---
+
+# 📊 Current Data Flow
+
+The current implementation follows this flow:
+
+```text
+Python Source
+     │
+     ▼
+FastAPI /parse
+     │
+     ▼
+ASTParser
+     │
+     ▼
+AST Analysis
+     │
+     ├──────────────┐
+     │              │
+     ▼              ▼
+Functions       Classes
+Imports         Calls
+Variables       Returns
+     │              │
+     └───────┬──────┘
+             ▼
+      DependencyGraph
+             │
+             ▼
+        Nodes + Edges
+             │
+             ▼
+        Streamlit UI
+             │
+             ▼
+    Visual Code Structure
+```
+
+---
+
+# 🚀 Planned BASE vs PR Analysis
+
+The next major stage is comparing two versions of a codebase.
+
+```text
+                 Repository
+                     │
+            ┌────────┴────────┐
+            │                 │
+            ▼                 ▼
+          BASE                PR
+            │                 │
+            ▼                 ▼
+        AST Parse         AST Parse
+            │                 │
+            ▼                 ▼
+      Dependency Graph  Dependency Graph
+            │                 │
+            └────────┬────────┘
+                     ▼
+              Graph Comparison
+                     │
+                     ▼
+              Semantic Changes
+```
+
+This will allow MergeMind to identify:
+
+* added functions
+* removed functions
+* changed functions
+* changed signatures
+* changed dependencies
+* changed execution relationships
+* affected callers
+* affected downstream components
+
+---
+
+# 🤖 Future Multi-Agent Semantic Auditing
+
+The current implementation does **not yet perform AI-based semantic auditing**.
+
+This is a planned stage.
+
+MergeMind will eventually use specialized agents instead of asking one general-purpose model to analyze everything.
+
+---
+
+## Sequence Auditor
 
 Checks:
 
@@ -340,7 +539,7 @@ can indicate a semantic conflict.
 
 ---
 
-### API Contract Auditor
+## API Contract Auditor
 
 Checks:
 
@@ -372,7 +571,7 @@ Potential result:
 
 ---
 
-### Side-Effect Auditor
+## Side-Effect Auditor
 
 Checks potentially dangerous interactions involving:
 
@@ -400,7 +599,7 @@ Potential result:
 
 # 🧠 Agent Supervisor
 
-The agents are coordinated through a supervisor.
+The agents will eventually be coordinated through a supervisor.
 
 ```text
                  SUPERVISOR
@@ -415,7 +614,7 @@ The agents are coordinated through a supervisor.
                Final Analysis
 ```
 
-The supervisor combines their findings and determines whether deeper runtime verification is required.
+The supervisor will combine their findings and determine whether deeper runtime verification is required.
 
 ---
 
@@ -507,7 +706,9 @@ The patch is **suggested for developer review** rather than blindly applied.
 
 ---
 
-# 🔄 Complete Workflow
+# 🔄 Planned Complete Workflow
+
+The eventual MergeMind workflow will be:
 
 ```text
 1. Developer creates Pull Request
@@ -545,12 +746,12 @@ The patch is **suggested for developer review** rather than blindly applied.
 
 ---
 
-# 🧪 Conflict Types
+# ⚠️ Conflict Types
 
-MergeMind is designed to detect multiple categories of semantic conflicts.
+MergeMind is designed to eventually detect multiple categories of semantic conflicts.
 
 | Conflict            | Example                                        |
-| ------------------- | ---------------------------------------------- |
+| ------------------- | ----------------------------------------------- |
 | Function Signature  | Parameter count/type changes                   |
 | Broken Dependency   | Removed function still being called            |
 | Import Conflict     | Deleted or renamed module/function             |
@@ -560,40 +761,6 @@ MergeMind is designed to detect multiple categories of semantic conflicts.
 | Control Flow        | Changed branch behavior                        |
 | Runtime Failure     | Merged code fails during execution             |
 | Integration Failure | Components work individually but fail together |
-
----
-
-# 📊 Evaluation Metrics
-
-MergeMind will be evaluated using:
-
-### Semantic Conflict Recall
-
-```text
-Detected Semantic Conflicts
-──────────────────────────── × 100
-Total Semantic Conflicts
-```
-
-Measures how many real semantic conflicts the system detects.
-
-### False Positive Rate
-
-Measures how frequently MergeMind flags a merge that is actually safe.
-
-### Audit Latency
-
-Measures:
-
-```text
-PR received
-     ↓
-Final decision
-```
-
-### Runtime Verification Success
-
-Measures how effectively dynamic testing catches issues missed by static analysis.
 
 ---
 
@@ -614,7 +781,7 @@ tests/
 └── test_safe_merge/
 ```
 
-Each scenario will contain:
+Each scenario will eventually contain:
 
 ```text
 Base Branch
@@ -625,9 +792,9 @@ Actual Result
 
 ---
 
-# 📁 Project Structure
+# 📁 Current Project Structure
 
-Current development structure:
+The current implementation is intentionally simple:
 
 ```text
 MergeMind/
@@ -635,7 +802,10 @@ MergeMind/
 ├── backend/
 │   ├── main.py
 │   ├── ast_parser.py
-│   └── requirements.txt
+│   └── dependency_graph.py
+│
+├── frontend/
+│   └── app.py
 │
 ├── sample_repos/
 │   └── test.py
@@ -647,7 +817,11 @@ MergeMind/
 └── venv/
 ```
 
-Planned architecture:
+---
+
+# 📁 Planned Project Structure
+
+As development progresses, the architecture will evolve toward:
 
 ```text
 MergeMind/
@@ -696,7 +870,7 @@ MergeMind/
 
 ---
 
-# 🚀 Current Development Status
+# 🚀 Development Roadmap
 
 ## Phase 1 — Foundation
 
@@ -706,64 +880,318 @@ MergeMind/
 * [x] AST parser
 * [x] Basic code-analysis API
 
-## Phase 2 — Static Analysis
+---
 
-* [ ] Advanced AST extraction
-* [ ] Function signatures
-* [ ] Call relationships
-* [ ] Import relationships
-* [ ] Dependency graph
-* [ ] Control Flow Graph
+## Phase 2 — Static Analysis & Visualization
 
-## Phase 3 — Semantic Conflict Engine
+* [x] Basic AST extraction
+* [x] Function extraction
+* [x] Class and method extraction
+* [x] Import extraction
+* [x] Function-call extraction
+* [x] Variable/assignment extraction
+* [x] Basic dependency graph generation
+* [x] Streamlit frontend
+* [x] Code structure dashboard
+* [x] Dependency graph dashboard
+* [x] Graph statistics
+* [x] Visual dependency representation
+
+### Current milestone
+
+```text
+Backend                  ✅
+AST Parser              ✅
+Code Analysis           ✅
+Dependency Graph        ✅
+Streamlit Dashboard     ✅
+Graph Visualization     ✅
+```
+
+---
+
+## Phase 3 — BASE vs PR Analysis
+
+* [ ] Repository loading
+* [ ] BASE branch extraction
+* [ ] PR branch extraction
+* [ ] Merge candidate generation
+* [ ] AST comparison
+* [ ] Dependency graph comparison
+* [ ] Changed-node detection
+* [ ] Impact analysis
+* [ ] Semantic change scoring
+
+---
+
+## Phase 4 — Semantic Conflict Engine
 
 * [ ] Function signature conflicts
 * [ ] Dependency conflicts
 * [ ] Import conflicts
 * [ ] Execution-order conflicts
 * [ ] Side-effect conflicts
+* [ ] Control-flow conflicts
+* [ ] API contract conflicts
 * [ ] Risk scoring
 
-## Phase 4 — Multi-Agent System
+---
+
+## Phase 5 — Multi-Agent System
 
 * [ ] LangGraph supervisor
 * [ ] Sequence Auditor
 * [ ] API Contract Auditor
 * [ ] Side-Effect Auditor
 * [ ] Agent result aggregation
+* [ ] Cross-agent reasoning
+* [ ] Confidence scoring
 
-## Phase 5 — Runtime Verification
+---
+
+## Phase 6 — Runtime Verification
 
 * [ ] Docker sandbox
 * [ ] Dependency installation
 * [ ] Unit test execution
 * [ ] Integration testing
 * [ ] Runtime log collection
+* [ ] Failure detection
+* [ ] Runtime trace analysis
 
-## Phase 6 — Explainability
+---
+
+## Phase 7 — Explainability
 
 * [ ] Failure diagnosis
 * [ ] Line-level explanations
 * [ ] AST difference visualization
+* [ ] Dependency impact visualization
 * [ ] Runtime trace explanation
 * [ ] Patch generation
+* [ ] Human-readable merge reports
 
-## Phase 7 — GitHub Integration
+---
+
+## Phase 8 — GitHub Integration
 
 * [ ] GitHub webhook
 * [ ] Pull Request analysis
 * [ ] Automated status checks
 * [ ] Merge approval
+* [ ] Merge rejection
 * [ ] Automated merge
+* [ ] PR comments
 
-## Phase 8 — Dashboard
+---
 
-* [ ] Streamlit dashboard
-* [ ] Conflict visualization
-* [ ] Dependency graphs
-* [ ] Agent reports
-* [ ] Runtime reports
-* [ ] Patch viewer
+# 📊 Evaluation Metrics
+
+MergeMind will eventually be evaluated using:
+
+## Semantic Conflict Recall
+
+```text
+Detected Semantic Conflicts
+──────────────────────────── × 100
+Total Semantic Conflicts
+```
+
+Measures how many real semantic conflicts the system detects.
+
+---
+
+## False Positive Rate
+
+Measures how frequently MergeMind flags a merge that is actually safe.
+
+---
+
+## Audit Latency
+
+Measures:
+
+```text
+PR received
+     ↓
+Final decision
+```
+
+---
+
+## Runtime Verification Success
+
+Measures how effectively dynamic testing catches issues missed by static analysis.
+
+---
+
+# 🧪 Example Future Scenario
+
+Consider a base branch:
+
+```python
+def calculate_total(price):
+    return price + calculate_tax(price)
+```
+
+The PR changes it to:
+
+```python
+def calculate_total(price, discount):
+    return price - discount
+```
+
+The function itself may look valid.
+
+But MergeMind can eventually discover:
+
+```text
+                 BASE
+
+              checkout()
+                  │
+                  ▼
+          calculate_total(price)
+                  │
+                  ▼
+            calculate_tax()
+```
+
+versus:
+
+```text
+                  PR
+
+              checkout()
+                  │
+                  ▼
+     calculate_total(price, discount)
+                  │
+                  ▼
+            calculate_discount()
+```
+
+The graph comparison can reveal:
+
+```text
+⚠️ CHANGED FUNCTION CONTRACT
+
+calculate_total()
+
+BASE:
+calculate_total(price)
+
+PR:
+calculate_total(price, discount)
+
+Affected Caller:
+checkout()
+
+Risk:
+Existing caller may provide insufficient arguments.
+```
+
+This is the type of semantic reasoning MergeMind is being built to perform.
+
+---
+
+# 🧠 Design Philosophy
+
+MergeMind follows a layered verification strategy:
+
+```text
+             ┌──────────────────┐
+             │   Static Layer   │
+             │                  │
+             │ AST + Graphs     │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │  Reasoning Layer │
+             │                  │
+             │ Multi-Agent AI   │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │  Dynamic Layer   │
+             │                  │
+             │ Docker + Tests   │
+             └────────┬─────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ Explainability   │
+             │                  │
+             │ Diagnosis + Fix  │
+             └──────────────────┘
+```
+
+No single layer is expected to solve the entire problem.
+
+The goal is to combine:
+
+```text
+Structure
+   +
+Dependencies
+   +
+Reasoning
+   +
+Execution
+   +
+Explanation
+```
+
+---
+
+# 🔮 Future Scope
+
+Potential future extensions include:
+
+* JavaScript / TypeScript support
+* Java support
+* C++ support
+* LLM-powered code reasoning
+* repository-wide impact analysis
+* learned semantic conflict classifiers
+* historical PR analysis
+* developer-specific conflict patterns
+* automatic regression-test generation
+* intelligent patch validation
+* IDE integration
+* GitHub/GitLab/Bitbucket support
+
+---
+
+# 👨‍💻 Team
+
+### MergeMind — Research & Development Team
+
+| Member             | Role                                 |
+| ------------------ | ------------------------------------- |
+| **Saaransh Johri** | Backend & Static Analysis            |
+| **Aditya**         | Multi-Agent AI System                |
+| **Vinit**          | Runtime Sandbox & GitHub Integration |
+| **Sayali**         | Dashboard, Visualization & XAI       |
+
+---
+
+# 🛠️ Tech Stack
+
+| Layer               | Technology           |
+| ------------------- | --------------------- |
+| Language            | Python 3.11+         |
+| Backend             | FastAPI              |
+| Static Analysis     | Python AST           |
+| Dependency Graph    | NetworkX             |
+| Frontend            | Streamlit            |
+| Graph Visualization | Graphviz / Streamlit |
+| Agent Orchestration | LangGraph            |
+| AI Reasoning        | LLMs                 |
+| Runtime Sandbox     | Docker               |
+| Version Control     | Git / GitHub         |
 
 ---
 
@@ -796,9 +1224,11 @@ pip install -r backend/requirements.txt
 
 ---
 
-# ▶️ Running the Backend
+# ▶️ Running MergeMind
 
-Start the FastAPI development server:
+## Start the Backend
+
+From the project root:
 
 ```bash
 cd backend
@@ -811,7 +1241,7 @@ The backend will be available at:
 http://127.0.0.1:8000
 ```
 
-Interactive API documentation:
+FastAPI documentation:
 
 ```text
 http://127.0.0.1:8000/docs
@@ -819,17 +1249,31 @@ http://127.0.0.1:8000/docs
 
 ---
 
+## Start the Frontend
+
+Open another terminal:
+
+```bash
+cd MergeMind
+venv\Scripts\activate
+streamlit run frontend/app.py
+```
+
+The MergeMind dashboard will open in your browser.
+
+---
+
 # 🧪 Current API
 
 ## `GET /`
 
-Health check.
+Health check endpoint.
 
-Response:
+Example response:
 
 ```json
 {
-  "message": "MergeMind Backend is running"
+    "message": "MergeMind Backend is running"
 }
 ```
 
@@ -839,151 +1283,170 @@ Response:
 
 Accepts Python source code and performs AST analysis.
 
-Request:
+Example request:
 
 ```json
 {
-  "code": "def hello(name):\n    print(name)"
+    "filename": "test.py",
+    "code": "def hello(name):\n    print(name)"
 }
 ```
 
-Response:
+The backend returns structured analysis together with dependency graph information.
+
+Conceptually:
 
 ```json
 {
-  "success": true,
-  "ast_analysis": {
-    "imports": [],
-    "functions": [
-      {
-        "name": "hello",
-        "line": 1,
-        "arguments": ["name"]
-      }
-    ],
-    "classes": [],
-    "function_calls": [
-      {
-        "name": "print",
-        "line": 2
-      }
-    ],
-    "variables": []
-  }
+    "success": true,
+    "ast_analysis": {},
+    "dependency_graph": {
+        "nodes": [],
+        "edges": []
+    }
 }
 ```
 
+The frontend converts this internal representation into the visual MergeMind dashboard.
+
 ---
 
-# 🧠 Design Philosophy
+# 📌 Development Principle
 
-MergeMind follows a layered verification strategy:
+MergeMind is being built **incrementally**.
+
+We are intentionally following:
 
 ```text
-             ┌──────────────────┐
-             │   Static Layer   │
-             │                  │
-             │ AST + Graphs     │
-             └────────┬─────────┘
-                      │
-                      ▼
-             ┌──────────────────┐
-             │  Reasoning Layer │
-             │                  │
-             │ Multi-Agent AI   │
-             └────────┬─────────┘
-                      │
-                      ▼
-             ┌──────────────────┐
-             │  Dynamic Layer  │
-             │                  │
-             │ Docker + Tests  │
-             └────────┬─────────┘
-                      │
-                      ▼
-             ┌──────────────────┐
-             │ Explainability   │
-             │                  │
-             │ Diagnosis + Fix │
-             └──────────────────┘
+STEP 1
+Backend
+   ↓
+STEP 2
+AST Parser
+   ↓
+STEP 3
+Structured Analysis
+   ↓
+STEP 4
+Dependency Graph
+   ↓
+STEP 5
+Visualization
+   ↓
+STEP 6
+BASE vs PR
+   ↓
+STEP 7
+Semantic Conflict Detection
+   ↓
+STEP 8
+AI Agents
+   ↓
+STEP 9
+Runtime Verification
+   ↓
+STEP 10
+GitHub Automation
 ```
 
-No single layer is expected to solve the entire problem.
+Each stage builds on the previous stage.
 
-The goal is to combine structural analysis, reasoning, execution and explanation.
-
----
-
-# 🔮 Future Scope
-
-Potential future extensions include:
-
-* JavaScript / TypeScript support
-* Java support
-* C++ support
-* LLM-powered code reasoning
-* repository-wide impact analysis
-* learned semantic conflict classifiers
-* historical PR analysis
-* developer-specific conflict patterns
-* automatic regression-test generation
-* intelligent patch validation
-* IDE integration
-* GitHub/GitLab/Bitbucket support
+The system will not introduce complex AI reasoning before the underlying code representation is reliable.
 
 ---
 
-# 👨‍💻 Team
+# 🧠 The End Goal
 
-### MergeMind — Research & Development Team
-
-| Member             | Role                                 |
-| ------------------ | ------------------------------------ |
-| **Saaransh Johri** | Backend & Static Analysis            |
-| **Aditya**         | Multi-Agent AI System                |
-| **Vinit**          | Runtime Sandbox & GitHub Integration |
-| **Sayali**         | Dashboard, Visualization & XAI       |
-
----
-
-# 📜 Project Status
-
-> 🚧 **MergeMind is currently under active development.**
-
-The current implementation focuses on establishing the Python backend and AST-based source-code analysis pipeline. More advanced semantic analysis, agentic auditing, runtime verification, explainability and GitHub automation are being developed incrementally.
-
----
-
-# ⭐ Vision
-
-Merge conflicts should not be treated as purely textual problems.
-
-Software is a system of:
+Eventually:
 
 ```text
-Functions
-   +
-Dependencies
-   +
-State
-   +
-Execution
-   +
-Contracts
-   +
-Side Effects
+                     GitHub PR
+                         │
+                         ▼
+                 ┌───────────────┐
+                 │   MergeMind   │
+                 └───────┬───────┘
+                         │
+                 Analyze BASE + PR
+                         │
+                         ▼
+                 AST + Dependency
+                      Analysis
+                         │
+                         ▼
+                  Semantic Changes
+                         │
+                         ▼
+                  Multi-Agent AI
+                         │
+                         ▼
+                  Runtime Testing
+                         │
+                         ▼
+                 ┌───────┴───────┐
+                 │               │
+                 ▼               ▼
+               SAFE           CONFLICT
+                 │               │
+                 ▼               ▼
+              MERGE        EXPLAIN + FIX
 ```
 
-MergeMind aims to make version-control systems **reason about software behaviour**, not merely differences in text.
+MergeMind's ultimate goal is to transform merge validation from:
 
-> **Don't just ask whether two branches can be merged.**
->
-> **Ask whether the software can survive the merge.**
+```text
+"Do these files conflict?"
+```
+
+into:
+
+```text
+"Do these software changes conflict?"
+```
+
+and eventually:
+
+```text
+"Will the resulting system still behave correctly?"
+```
 
 ---
 
-## Built with
+# 🚧 Development Status
 
-Python • FastAPI • AST • Tree-sitter • NetworkX • LangGraph • LLMs • Docker • GitHub • Streamlit
+**Current Stage: Static Code Intelligence & Dependency Visualization**
+
+```text
+████████████████░░░░░░░░░░░░░░
+
+Backend                  ✅
+AST Parser              ✅
+Code Analysis           ✅
+Dependency Graph        ✅
+Streamlit Dashboard     ✅
+Graph Visualization     ✅
+
+BASE vs PR              🔜
+Semantic Conflicts      🔜
+AI Agents               🔜
+Docker Verification     🔜
+XAI Diagnosis           🔜
+Patch Generation        🔜
+GitHub Integration      🔜
+```
+
+> **Current milestone: Build a reliable visual understanding of a codebase before attempting semantic merge reasoning.**
 
 ---
+
+# ⭐ MergeMind
+
+### Understand the code.
+
+### Understand the dependencies.
+
+### Understand the change.
+
+### Understand the merge.
+
+> **Don't just merge code. Understand what the merge does.**
